@@ -1,0 +1,121 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ---------------------------
+// PRODUCTS & VARIANTS
+// ---------------------------
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String    @unique     // e.g. "Formal Shoes", "Loafers", "Sneakers"
+  slug      String    @unique     // e.g. "formal-shoes" (used in URLs)
+  products  Product[]
+  createdAt DateTime  @default(now())
+}
+
+model Product {
+  id          String           @id @default(cuid())
+  name        String           // e.g. "Oxford Leather Shoe"
+  slug        String           @unique // e.g. "oxford-leather-shoe"
+  description String
+  basePrice   Int              // price in smallest currency unit (paise/cents) to avoid decimal issues
+  categoryId  String
+  category    Category         @relation(fields: [categoryId], references: [id])
+  images      ProductImage[]
+  variants    ProductVariant[]
+  isActive    Boolean          @default(true) // hide/show product without deleting it
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model ProductImage {
+  id        String  @id @default(cuid())
+  url       String  // Cloudinary URL
+  altText   String?
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+// Each combination of size + color is a separate variant with its own stock
+model ProductVariant {
+  id        String      @id @default(cuid())
+  productId String
+  product   Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+  size      String      // e.g. "8", "9", "10" (UK/EU/US sizing - decide later)
+  color     String      // e.g. "Brown", "Black"
+  sku       String      @unique // unique stock code, e.g. "ANY-OXF-BRN-9"
+  stock     Int         @default(0)
+  priceOverride Int?    // optional: if this variant costs differently than basePrice
+  orderItems OrderItem[]
+
+  @@unique([productId, size, color]) // prevents duplicate variant entries
+}
+
+// ---------------------------
+// USERS & ORDERS
+// ---------------------------
+
+model User {
+  id        String   @id @default(cuid())
+  name      String?
+  email     String   @unique
+  password  String?  // hashed password (nullable if using social login later)
+  addresses Address[]
+  orders    Order[]
+  createdAt DateTime @default(now())
+}
+
+model Address {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fullName   String
+  line1      String
+  line2      String?
+  city       String
+  state      String
+  postalCode String
+  country    String   // e.g. "India", "United States"
+  phone      String
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  items       OrderItem[]
+  totalAmount Int         // total in smallest currency unit
+  currency    String      // "INR" or "USD" etc.
+  status      OrderStatus @default(PENDING)
+  paymentId   String?     // reference from Razorpay/Stripe
+  paymentMethod String?   // "razorpay" or "stripe"
+  shippingAddress Json    // snapshot of address at time of order
+  createdAt   DateTime    @default(now())
+}
+
+model OrderItem {
+  id        String         @id @default(cuid())
+  orderId   String
+  order     Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [id])
+  quantity  Int
+  priceAtPurchase Int      // price locked in at time of order
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  CANCELLED
+}
