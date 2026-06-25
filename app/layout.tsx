@@ -18,7 +18,7 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://anytime-shoes.com"), // replace with your actual domain
+  metadataBase: new URL("https://anytime-shoes.vercel.app"), // replace with your actual domain
   title: {
     default: "Anytime | Premium Leather Shoes",
     template: "%s | Anytime",

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Anytime | Premium Leather Shoes",
     description:
       "Shop Anytime's collection of premium authentic leather shoes. Crafted to last, designed for everyday elegance.",
-    url: "https://anytime-shoes.com",
+    url: "https://anytime-shoes.vercel.app",
   },
 };
 

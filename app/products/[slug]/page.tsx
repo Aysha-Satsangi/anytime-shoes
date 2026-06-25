@@ -37,7 +37,7 @@ export async function generateMetadata({
     openGraph: {
       title: `${product.name} | Anytime`,
       description: `${product.category.name} — starting at ${price}. ${product.description.slice(0, 120)}…`,
-      url: `https://anytime-shoes.com/products/${slug}`,
+      url: `https://anytime-shoes.vercel.app/products/${slug}`,
       images: [
         {
           url: image,
