@@ -69,6 +69,7 @@ model User {
   name      String?
   email     String   @unique
   password  String?  // hashed password (nullable if using social login later)
+  isAdmin   Boolean  @default(false)
   addresses Address[]
   orders    Order[]
   createdAt DateTime @default(now())
@@ -90,6 +91,7 @@ model Address {
 
 model Order {
   id          String      @id @default(cuid())
+  orderNumber String @unique 
   userId      String
   user        User        @relation(fields: [userId], references: [id])
   items       OrderItem[]

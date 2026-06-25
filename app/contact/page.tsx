@@ -1,13 +1,20 @@
 import StitchDivider from "@/components/StitchDivider";
 
+export const metadata = {
+  title: "Contact Us",
+  description:
+    "Get in touch with the Anytime team. We're here to help with orders, sizing, and anything else.",
+};
+
+
 export default function ContactPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-16">
       <p className="font-mono text-xs uppercase tracking-widest text-cognac mb-4">
         Get In Touch
       </p>
-      <h1 className="font-display text-4xl sm:text-5xl tracking-wide text-ink mb-8">
-        CONTACT US
+      <h1 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-ink mb-8">
+        Contact Us
       </h1>
 
       <p className="text-stone-soft leading-relaxed max-w-xl">

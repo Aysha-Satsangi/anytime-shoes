@@ -12,8 +12,8 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <main className="max-w-3xl mx-auto px-4 py-20 text-center">
-        <h1 className="font-display text-4xl tracking-wide text-ink mb-3">
-          YOUR CART
+        <h1 className="font-display font-bold text-4xl tracking-tight text-ink mb-3">
+          Your Cart
         </h1>
         <p className="text-stone-soft mb-8">Your cart is empty.</p>
         <Link
@@ -28,8 +28,8 @@ export default function CartPage() {
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-12">
-      <h1 className="font-display text-4xl tracking-wide text-ink mb-8">
-        YOUR CART
+      <h1 className="font-display font-bold text-4xl tracking-tight text-ink mb-8">
+        Your Cart
       </h1>
 
       <div className="divide-y divide-line">
@@ -107,8 +107,8 @@ export default function CartPage() {
       </div>
 
       <div className="mt-6 flex justify-between items-center">
-        <span className="font-display text-2xl tracking-wide text-ink">
-          TOTAL
+        <span className="font-display font-bold text-2xl tracking-tight text-ink">
+          Total
         </span>
         <span className="font-mono text-xl text-cognac">
           {formatPriceINR(totalPrice)}

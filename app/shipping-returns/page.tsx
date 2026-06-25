@@ -1,19 +1,26 @@
 import StitchDivider from "@/components/StitchDivider";
 
+export const metadata = {
+  title: "Shipping & Returns",
+  description:
+    "Anytime shipping and returns policy. Free shipping on orders above ₹2,000. Easy 14-day returns.",
+};
+
+
 export default function ShippingReturnsPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-16">
       <p className="font-mono text-xs uppercase tracking-widest text-cognac mb-4">
         Policies
       </p>
-      <h1 className="font-display text-4xl sm:text-5xl tracking-wide text-ink mb-8">
-        SHIPPING &amp; RETURNS
+      <h1 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-ink mb-8">
+        Shipping &amp; Returns
       </h1>
 
       <div className="space-y-10 text-stone-soft leading-relaxed">
         <section>
-          <h2 className="font-display text-2xl text-ink tracking-wide mb-3">
-            SHIPPING &mdash; INDIA
+          <h2 className="font-display font-semibold text-2xl text-ink tracking-tight mb-3">
+            Shipping &mdash; India
           </h2>
           <p>
             Orders within India are typically dispatched within 1-2
@@ -24,8 +31,8 @@ export default function ShippingReturnsPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-2xl text-ink tracking-wide mb-3">
-            SHIPPING &mdash; INTERNATIONAL
+          <h2 className="font-display font-semibold text-2xl text-ink tracking-tight mb-3">
+            Shipping &mdash; International
           </h2>
           <p>
             International orders are dispatched within 2-4 business days
@@ -41,8 +48,8 @@ export default function ShippingReturnsPage() {
         </div>
 
         <section>
-          <h2 className="font-display text-2xl text-ink tracking-wide mb-3">
-            RETURNS &amp; EXCHANGES
+          <h2 className="font-display font-semibold text-2xl text-ink tracking-tight mb-3">
+            Returns &amp; Exchanges
           </h2>
           <p>
             If your shoes don&apos;t fit or you&apos;re not happy with
@@ -66,8 +73,8 @@ export default function ShippingReturnsPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-2xl text-ink tracking-wide mb-3">
-            DAMAGED OR INCORRECT ITEMS
+          <h2 className="font-display font-semibold text-2xl text-ink tracking-tight mb-3">
+            Damaged or Incorrect Items
           </h2>
           <p>
             If your order arrives damaged or you received the wrong item,

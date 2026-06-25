@@ -69,8 +69,8 @@ export default function CheckoutPage() {
 
   return (
     <main className="max-w-4xl mx-auto px-4 py-12">
-      <h1 className="font-display text-4xl tracking-wide text-ink mb-8">
-        CHECKOUT
+      <h1 className="font-display font-bold text-4xl tracking-tight text-ink mb-8">
+        Checkout
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
@@ -205,8 +205,8 @@ export default function CheckoutPage() {
             <StitchDivider />
           </div>
           <div className="mt-4 flex justify-between items-center">
-            <span className="font-display text-xl tracking-wide text-ink">
-              TOTAL
+            <span className="font-display font-bold text-xl tracking-tight text-ink">
+              Total
             </span>
             <span className="font-mono text-lg text-cognac">
               {formatPriceINR(totalPrice)}

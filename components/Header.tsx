@@ -17,9 +17,9 @@ export default function Header() {
       <div className="max-w-6xl mx-auto px-4 h-20 flex items-center justify-between">
         <Link
           href="/"
-          className="font-display text-2xl sm:text-3xl tracking-wide text-ink"
+          className="font-display font-bold text-2xl sm:text-3xl tracking-tight text-ink"
         >
-          ANYTIME
+          Anytime
         </Link>
 
         <nav className="hidden sm:flex items-center gap-8 font-mono text-xs uppercase tracking-widest text-stone-soft">
@@ -37,6 +37,14 @@ export default function Header() {
         <div className="flex items-center gap-5 font-mono text-xs uppercase tracking-widest">
           {status === "loading" ? null : session ? (
             <div className="hidden sm:flex items-center gap-5">
+              {session.user?.isAdmin && (
+                <Link
+                  href="/admin"
+                  className="text-cognac hover:text-cognac-dark transition-colors"
+                >
+                  Admin
+                </Link>
+              )}
               <Link
                 href="/account"
                 className="text-stone-soft hover:text-cognac transition-colors"

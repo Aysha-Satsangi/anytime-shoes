@@ -19,6 +19,16 @@ type CartItemInput = {
   quantity: number;
 };
 
+// No I, O, 0, 1 to avoid customer confusion when reading aloud
+function generateOrderNumber(): string {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let code = "";
+  for (let i = 0; i < 6; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return `ANT-${code}`;
+}
+
 export async function createOrder({
   cartItems,
   shipping,
@@ -30,57 +40,75 @@ export async function createOrder({
     throw new Error("Cart is empty");
   }
 
-  // Re-fetch variants from the database so prices/stock can't be tampered
-  // with on the client - this is the "source of truth"
   const variantIds = cartItems.map((i) => i.variantId);
-  const variants = await prisma.productVariant.findMany({
-    where: { id: { in: variantIds } },
-    include: { product: true },
-  });
 
-  let totalAmount = 0;
-  const orderItemsData = cartItems.map((ci) => {
-    const variant = variants.find((v) => v.id === ci.variantId);
-    if (!variant) {
-      throw new Error(`Variant ${ci.variantId} no longer exists`);
-    }
-    if (variant.stock < ci.quantity) {
-      throw new Error(`Not enough stock for SKU ${variant.sku}`);
-    }
+  const orderId = await prisma.$transaction(async (tx) => {
+    // 1. Re-fetch variants inside the transaction
+    const variants = await tx.productVariant.findMany({
+      where: { id: { in: variantIds } },
+      include: { product: true },
+    });
 
-    const price = variant.priceOverride ?? variant.product.basePrice;
-    totalAmount += price * ci.quantity;
+    // 2. Validate stock and build order items
+    let totalAmount = 0;
+    const orderItemsData = cartItems.map((ci) => {
+      const variant = variants.find((v) => v.id === ci.variantId);
+      if (!variant) {
+        throw new Error(`Variant ${ci.variantId} no longer exists`);
+      }
+      if (variant.stock < ci.quantity) {
+        throw new Error(
+          `Sorry, only ${variant.stock} pair(s) of size ${variant.size} (${variant.color}) are left in stock.`,
+        );
+      }
 
-    return {
-      variantId: variant.id,
-      quantity: ci.quantity,
-      priceAtPurchase: price,
-    };
-  });
+      const price = variant.priceOverride ?? variant.product.basePrice;
+      totalAmount += price * ci.quantity;
 
-  // Find an existing user by email, or create a guest user record.
-  // (Once login is added later, this same email will link to their account.)
-  const user = await prisma.user.upsert({
-    where: { email: shipping.email },
-    update: {},
-    create: {
-      email: shipping.email,
-      name: shipping.fullName,
-    },
-  });
+      return {
+        variantId: variant.id,
+        quantity: ci.quantity,
+        priceAtPurchase: price,
+      };
+    });
 
-  const order = await prisma.order.create({
-    data: {
-      userId: user.id,
-      totalAmount,
-      currency: "INR",
-      status: "PENDING",
-      shippingAddress: shipping,
-      items: {
-        create: orderItemsData,
+    // 3. Decrement stock atomically
+    await Promise.all(
+      cartItems.map((ci) =>
+        tx.productVariant.update({
+          where: { id: ci.variantId },
+          data: { stock: { decrement: ci.quantity } },
+        }),
+      ),
+    );
+
+    // 4. Upsert user
+    const user = await tx.user.upsert({
+      where: { email: shipping.email },
+      update: {},
+      create: {
+        email: shipping.email,
+        name: shipping.fullName,
       },
-    },
+    });
+
+    // 5. Create order with friendly order number
+    const order = await tx.order.create({
+      data: {
+        orderNumber: generateOrderNumber(),
+        userId: user.id,
+        totalAmount,
+        currency: "INR",
+        status: "PENDING",
+        shippingAddress: shipping,
+        items: {
+          create: orderItemsData,
+        },
+      },
+    });
+
+    return order.id;
   });
 
-  return order.id;
+  return orderId;
 }

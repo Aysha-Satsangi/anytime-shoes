@@ -34,11 +34,11 @@ export default function HeroIntro({ featured }: { featured?: Product }) {
           animate="visible"
           variants={fadeUp}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-display text-5xl sm:text-6xl lg:text-7xl leading-[0.95] tracking-wide text-ink"
+          className="font-display font-bold text-5xl sm:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-ink"
         >
-          BUILT TO LAST.
+          Built to last.
           <br />
-          <span className="text-cognac">WORN ANYTIME.</span>
+          <span className="text-cognac">Worn anytime.</span>
         </motion.h1>
 
         <motion.p

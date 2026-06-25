@@ -37,7 +37,7 @@ export default function MobileMenu({
         }`}
       >
         <div className="flex items-center justify-between h-20 px-6 border-b border-line">
-          <span className="font-display text-xl tracking-wide text-ink">
+          <span className="font-display text-xl tracking-tight text-ink">
             MENU
           </span>
           <button

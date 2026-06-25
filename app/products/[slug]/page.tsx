@@ -5,6 +5,57 @@ import VariantSelector from "@/components/VariantSelector";
 import StitchDivider from "@/components/StitchDivider";
 import ProductGallery from "@/components/ProductGallery";
 
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+
+  const product = await prisma.product.findUnique({
+    where: { slug, isActive: true },
+    include: { images: true, category: true },
+  });
+
+  if (!product) {
+    return { title: "Product Not Found" };
+  }
+
+  const price = new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 0,
+  }).format(product.basePrice / 100);
+
+  const image = product.images[0]?.url ?? "/og-image.jpg";
+
+  return {
+    title: product.name,
+    description: `${product.description.slice(0, 150)}${product.description.length > 150 ? "…" : ""}`,
+    openGraph: {
+      title: `${product.name} | Anytime`,
+      description: `${product.category.name} — starting at ${price}. ${product.description.slice(0, 120)}…`,
+      url: `https://anytime-shoes.com/products/${slug}`,
+      images: [
+        {
+          url: image,
+          width: 600,
+          height: 600,
+          alt: product.name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.name} | Anytime`,
+      description: `${product.category.name} — starting at ${price}.`,
+      images: [image],
+    },
+  };
+}
+
 export default async function ProductPage({
   params,
 }: {
@@ -36,7 +87,7 @@ export default async function ProductPage({
           <p className="font-mono text-xs uppercase tracking-widest text-cognac mb-3">
             {product.category.name}
           </p>
-          <h1 className="font-display text-4xl sm:text-5xl tracking-wide text-ink leading-tight">
+          <h1 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-ink leading-tight">
             {product.name}
           </h1>
           <p className="font-mono text-xl text-cognac mt-4">

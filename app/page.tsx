@@ -5,6 +5,19 @@ import { formatPriceINR } from "@/lib/format";
 import StitchDivider from "@/components/StitchDivider";
 import Reveal from "@/components/Reveal";
 import HeroIntro from "@/components/HeroIntro";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Anytime | Premium Leather Shoes",
+  description:
+    "Shop Anytime's collection of premium authentic leather shoes. Formal shoes, loafers, and sneakers — crafted to last, designed for everyday elegance.",
+  openGraph: {
+    title: "Anytime | Premium Leather Shoes",
+    description:
+      "Shop Anytime's collection of premium authentic leather shoes. Crafted to last, designed for everyday elegance.",
+    url: "https://anytime-shoes.com",
+  },
+};
 
 export default async function HomePage() {
   const products = await prisma.product.findMany({
@@ -28,8 +41,8 @@ export default async function HomePage() {
       <section id="collection" className="max-w-6xl mx-auto px-4 py-16">
         <Reveal>
           <div className="flex items-end justify-between mb-10">
-            <h2 className="font-display text-3xl sm:text-4xl tracking-wide text-ink">
-              OUR COLLECTION
+            <h2 className="font-display font-bold text-3xl sm:text-4xl tracking-tight text-ink">
+              Our Collection
             </h2>
             <p className="font-mono text-xs uppercase tracking-widest text-stone-soft">
               {products.length} {products.length === 1 ? "Style" : "Styles"}
@@ -43,10 +56,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
             {products.map((product, index) => (
               <Reveal key={product.id} delay={Math.min(index * 0.08, 0.3)}>
-                <Link
-                  href={`/products/${product.slug}`}
-                  className="group block"
-                >
+                <Link href={`/products/${product.slug}`} className="group block">
                   <div className="relative aspect-square bg-paper border border-line overflow-hidden">
                     {product.images[0] && (
                       <Image

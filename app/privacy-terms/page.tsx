@@ -1,19 +1,25 @@
 import StitchDivider from "@/components/StitchDivider";
 
+export const metadata = {
+  title: "Privacy & Terms",
+  description:
+    "Anytime privacy policy and terms of service. Your data is safe with us.",
+};
+
 export default function PrivacyTermsPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-16">
       <p className="font-mono text-xs uppercase tracking-widest text-cognac mb-4">
         Legal
       </p>
-      <h1 className="font-display text-4xl sm:text-5xl tracking-wide text-ink mb-8">
-        PRIVACY &amp; TERMS
+      <h1 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-ink mb-8">
+        Privacy &amp; Terms
       </h1>
 
       <div className="space-y-10 text-stone-soft leading-relaxed">
         <section>
-          <h2 className="font-display text-2xl text-ink tracking-wide mb-3">
-            PRIVACY POLICY
+          <h2 className="font-display font-semibold text-2xl text-ink tracking-tight mb-3">
+            Privacy Policy
           </h2>
           <p>
             We collect the information you provide when creating an
@@ -46,8 +52,8 @@ export default function PrivacyTermsPage() {
         </div>
 
         <section>
-          <h2 className="font-display text-2xl text-ink tracking-wide mb-3">
-            TERMS OF SERVICE
+          <h2 className="font-display font-semibold text-2xl text-ink tracking-tight mb-3">
+            Terms of Service
           </h2>
           <p>
             By using this website and placing an order, you agree to
@@ -65,8 +71,8 @@ export default function PrivacyTermsPage() {
         </section>
 
         <section>
-          <h2 className="font-display text-2xl text-ink tracking-wide mb-3">
-            GOVERNING LAW
+          <h2 className="font-display font-semibold text-2xl text-ink tracking-tight mb-3">
+            Governing Law
           </h2>
           <p>
             These terms are governed by the laws of India. Any disputes

@@ -46,11 +46,11 @@ export default async function OrderConfirmationPage({
         <p className="font-mono text-xs uppercase tracking-widest text-cognac mb-3">
           Order Confirmed
         </p>
-        <h1 className="font-display text-4xl sm:text-5xl tracking-wide text-ink">
-          THANK YOU
+        <h1 className="font-display font-bold text-4xl sm:text-5xl tracking-tight text-ink">
+          Thank You
         </h1>
         <p className="font-mono text-xs text-stone-soft mt-4">
-          ORDER ID: {order.id}
+          ORDER: {order.orderNumber}
         </p>
         <p className="inline-block mt-4 border border-line font-mono text-xs uppercase tracking-widest text-cognac px-3 py-2">
           Status: {order.status} &mdash; Payment integration coming soon
@@ -82,8 +82,8 @@ export default async function OrderConfirmationPage({
       </div>
 
       <div className="flex justify-between items-center mb-10">
-        <span className="font-display text-xl tracking-wide text-ink">
-          TOTAL
+        <span className="font-display font-bold text-xl tracking-tight text-ink">
+          Total
         </span>
         <span className="font-mono text-lg text-cognac">
           {formatPriceINR(order.totalAmount)}

@@ -9,8 +9,8 @@ export default function Footer() {
       </div>
       <div className="max-w-6xl mx-auto px-4 py-10 grid grid-cols-1 sm:grid-cols-3 gap-10">
         <div>
-          <p className="font-display text-2xl tracking-wide text-ink">
-            ANYTIME
+          <p className="font-display font-bold text-2xl tracking-tight text-ink">
+            Anytime
           </p>
           <p className="text-sm text-stone-soft mt-2 max-w-xs">
             Full-grain leather shoes, built to be worn every day, anywhere
